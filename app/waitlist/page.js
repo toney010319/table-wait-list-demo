@@ -20,7 +20,7 @@ export default function WaitlistPage() {
   }, []);
 
   return (
-    <div className="space-y-4  w-full flex flex-row ">
+    <div className="space-y-4 w-full flex flex-col md:flex-row">
       <div className="w-full max-w-2xl mx-auto p-4 bg-gray-50 rounded shadow">
         <h2 className="text-2xl  font-bold">Add Guest</h2>
         <GuestForm onGuestAdded={fetchGuests} />
