@@ -24,14 +24,14 @@ export default async function StatsPage() {
           <p>{stats.averageWait} min</p>
         </div>
         <div className="p-4 bg-white border rounded">
-          <p className="font-medium">% Removed</p>
+          <p className="font-medium"> Removed</p>
           <p>{stats.percentRemoved}%</p>
         </div>
         <div className="p-4 bg-white border rounded">
           <p className="font-medium">By Party Size</p>
-          <p>1-2: {stats.byPartySize.small}</p>
-          <p>3-4: {stats.byPartySize.medium}</p>
-          <p>5+: {stats.byPartySize.large}</p>
+          <p>1-2 person: {stats.byPartySize.small}</p>
+          <p>3-4 person: {stats.byPartySize.medium}</p>
+          <p>5+ person: {stats.byPartySize.large}</p>
         </div>
       </div>
     </div>
