@@ -72,7 +72,7 @@ export default function GuestList({ initialGuests }) {
               )}
             </div>
             <StatusBadge status={guest.status} />
-            <div className="flex space-x-2">
+            <div className="flex flex-col sm:flex-row  space-x-2 space-y-2 sm:space-y-0">
               {guest.status === "WAITING" && (
                 <button
                   onClick={() => handleAction(callGuestAction, guest.id)}
