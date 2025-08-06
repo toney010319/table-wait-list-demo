@@ -12,6 +12,9 @@ export default function GuestList({ initialGuests }) {
   const [filter, setFilter] = useState("ALL");
   const [timers, setTimers] = useState({});
   const router = useRouter();
+  useEffect(() => {
+    setGuests(initialGuests);
+  }, [initialGuests]);
 
   // Handle grace timer for CALLED guests
   useEffect(() => {
@@ -22,7 +25,6 @@ export default function GuestList({ initialGuests }) {
           if (guest.status === "CALLED" && guest.calledAt) {
             const timeLeft = 120000 - (Date.now() - new Date(guest.calledAt));
             if (timeLeft <= 0 && !timers[guest.id]) {
-              // Revert to WAITING on timer expiration
               setTimers((prev) => ({ ...prev, [guest.id]: true }));
               removeGuestAction(guest.id);
               router.refresh();

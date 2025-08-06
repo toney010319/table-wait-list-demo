@@ -4,15 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { addGuestAction } from "../lib/action";
 
-export default function GuestForm() {
+export default function GuestForm({ onGuestAdded }) {
   const [error, setError] = useState(null);
-  const router = useRouter();
 
   async function handleSubmit(formData) {
     const result = await addGuestAction(formData);
     if (result.success) {
-      router.refresh();
       setError(null);
+      if (onGuestAdded) await onGuestAdded();
     } else {
       setError(result.error);
     }
