@@ -2,6 +2,10 @@
 
 A minimal restaurant waitlist prototype built with Next.js 14 (App Router), JavaScript, and TailwindCSS.
 
+## TODO's
+
+[X] Need to Enhance the UI due to short timeframe
+
 ## Setup
 
 1. Clone the repository.
@@ -21,10 +25,6 @@ A minimal restaurant waitlist prototype built with Next.js 14 (App Router), Java
 - **Quoted Wait Formula**: `quotedWaitMin = positionInQueue * 15 + (partySize >= 5 ? 5 : 0)`
   - `positionInQueue`: Number of waiting guests + 1.
   - Adds 5 minutes for parties of 5 or more.
-
-## TODO's
-
-[x] Need to Enhance the UI due to short timeframe
 
 ## Notes
 
