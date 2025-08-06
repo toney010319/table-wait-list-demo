@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "id": "1754515752236",
+    "name": "sss",
+    "partySize": 22,
+    "phone": null,
+    "priority": false,
+    "status": "WAITING",
+    "createdAt": "2025-08-06T21:29:12.236Z",
+    "calledAt": null,
+    "seatedAt": null,
+    "removedAt": null,
+    "quotedWait": 20
+  }
+]
