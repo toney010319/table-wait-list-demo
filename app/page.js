@@ -1,12 +1,33 @@
-import Link from "next/link";
+"use client";
+import { useState, useEffect } from "react";
+import GuestForm from "./components/GuestForm";
+import GuestList from "./components/GuestList";
 
 export default function HomePage() {
+  const [guests, setGuests] = useState([]);
+
+  // Fetch guests from API route
+  async function fetchGuests() {
+    const res = await fetch("api/guests");
+    const data = await res.json();
+    console.log(data.guests);
+    setGuests(data.guests);
+  }
+
+  useEffect(() => {
+    fetchGuests();
+  }, []);
+
   return (
-    <div className="container mx-auto p-4 text-center">
-      <h1 className="text-2xl font-bold mb-4">Table Waitlist Lite</h1>
-      <Link href="/waitlist" className="text-blue-500 hover:underline">
-        Go to Waitlist
-      </Link>
+    <div className="space-y-4 w-full flex flex-col md:flex-row">
+      <div className="w-full max-w-2xl mx-auto p-4 bg-gray-50 rounded shadow">
+        <h2 className="text-2xl  font-bold">Add Guest</h2>
+        <GuestForm onGuestAdded={fetchGuests} />
+      </div>
+      <div className="w-full max-w-2xl mx-auto p-4 bg-gray-50 rounded shadow">
+        <h2 className="text-2xl  font-bold">WaitList</h2>
+        <GuestList initialGuests={guests} />
+      </div>
     </div>
   );
 }
