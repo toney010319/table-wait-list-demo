@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Table Waitlist Lite
+A minimal restaurant waitlist prototype built with Next.js 14 (App Router), JavaScript, and TailwindCSS.
+Setup
 
-## Getting Started
+Clone the repository.
+Install dependencies: npm install
+Create a .env file with:DATA_PATH=./data/guests.json
 
-First, run the development server:
+Run the app: npm run dev
+Access at http://localhost:3000/waitlist
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+/waitlist: Add guests (name, party size, optional phone, priority), view list with statuses (WAITING, CALLED, SEATED, REMOVED), search by name, filter by status, and perform actions (Call, Seat, Remove). Includes a 2-minute grace timer for CALLED guests (reverts to WAITING on expiration).
+/seated: Log of seated guests with actual wait times.
+/stats: Today’s metrics (total added, seated, removed, average wait, % removed, party size breakdown).
+Quoted Wait Formula: quotedWaitMin = positionInQueue \* 15 + (partySize >= 5 ? 5 : 0)
+positionInQueue: Number of waiting guests + 1.
+Adds 5 minutes for parties of 5 or more.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Future Extensions
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Manager Features: Add a /manager route with authentication, detailed analytics (e.g., hourly wait time trends), and CSV export functionality.
+Database: Replace JSON file with a proper NoSQL database (e.g., MongoDB) for scalability.
+Notifications: Integrate SMS/email notifications for CALLED guests using their phone number.
+Multi-user Support: Add user roles (host, manager) with Clerk or NextAuth for authentication.
+Real-time Updates: Use WebSockets or Server-Sent Events for live updates without page refresh.
 
-## Learn More
+Notes
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Uses a JSON file (data/guests.json) as a simple NoSQL-like store.
+Server actions handle optimistic UI updates.
+TailwindCSS ensures mobile-first, readable styling.
+Error and empty states are handled (e.g., "No guests yet").
+# table-wait-list-demo
