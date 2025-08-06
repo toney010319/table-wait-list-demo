@@ -1,7 +1,7 @@
 const fs = require("fs").promises;
 const path = require("path");
 
-const DATA_PATH = process.env.DATA_PATH || "./data/guests.json";
+const DATA_PATH = process.env.DATA_PATH || "./app/data/guests.json";
 
 // Ensure data file exists
 async function initializeData() {
