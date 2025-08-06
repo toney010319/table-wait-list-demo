@@ -1,4 +1,4 @@
-# Table Waitlist Lite
+# A Very SIMPLE Table Waitlist Lite
 
 A minimal restaurant waitlist prototype built with Next.js 14 (App Router), JavaScript, and TailwindCSS.
 
