@@ -9,6 +9,9 @@ A minimal restaurant waitlist prototype built with Next.js 14 (App Router), Java
 ## Setup
 
 1. Clone the repository.
+   Link:
+   (SSH) `git@github.com:toney010319/table-wait-list-demo.git`
+   (HTTPS) `https://github.com/toney010319/table-wait-list-demo.git`
 2. Install dependencies: `npm install`
 3. Create a `.env` file with:
    ```
