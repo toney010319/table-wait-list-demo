@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import StatusBadge from "./StatusBadge";
 import Filters from "./Filters";
 import { callGuestAction, seatGuestAction, removeGuestAction } from "../lib/action";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export default function GuestList({ initialGuests }) {
   const [guests, setGuests] = useState(initialGuests);
@@ -55,14 +57,38 @@ export default function GuestList({ initialGuests }) {
       {filteredGuests.length === 0 && <p className="text-center text-gray-500">No guests yet</p>}
       <div className="space-y-2">
         {filteredGuests.map((guest) => (
-          <div key={guest.id} className="flex items-center p-2 bg-white border rounded">
-            <div className="flex-1">
+          <div
+            key={guest.id}
+            className={`p-2 sm:p-4 border rounded grid grid-cols-1 sm:grid-cols-3 grid-rows-1 gap-2 sm:gap-4 ${
+              {
+                WAITING: "bg-blue-100 text-blue-800",
+                CALLED: "bg-yellow-100 text-yellow-800",
+                SEATED: "bg-green-100 text-green-800",
+                REMOVED: "bg-red-100 text-red-800",
+              }[guest.status] || "bg-gray-100 text-gray-800"
+            }`}
+          >
+            <div>
+              <Badge
+                className={`ml-2 rounded-none ${
+                  {
+                    WAITING: "",
+                    CALLED: "bg-yellow-500",
+                    SEATED: "bg-green-500",
+                    REMOVED: "bg-red-500",
+                  }[guest.status] || ""
+                }`}
+              >
+                {guest.status}
+              </Badge>
+            </div>
+            <div className="flex flex-col">
               <p className="font-medium">
-                {guest.name} (Party of {guest.partySize})
+                {guest.name} ( {guest.partySize} Person)
               </p>
               <p className="text-sm text-gray-500">
-                Added {new Date(guest.createdAt).toLocaleTimeString()}
-                {guest.priority && " • Priority"}
+                Added {Math.floor((Date.now() - new Date(guest.createdAt).getTime()) / (1000 * 60))}mins ago
+                {guest.priority && <Badge className="ml-2 bg-red-500">Priority</Badge>}
               </p>
               <p className="text-sm">Quoted Wait: {guest.quotedWait} min</p>
               {guest.status === "CALLED" && guest.calledAt && (
@@ -71,31 +97,31 @@ export default function GuestList({ initialGuests }) {
                 </p>
               )}
             </div>
-            <StatusBadge status={guest.status} />
-            <div className="flex flex-col sm:flex-row  space-x-2 space-y-2 sm:space-y-0">
+            {/* <StatusBadge status={guest.status} /> */}
+            <div className="flex flex-col justify-end item-center text-center sm:flex-row  space-x-2 space-y-2 sm:space-y-0">
               {guest.status === "WAITING" && (
-                <button
+                <Button
                   onClick={() => handleAction(callGuestAction, guest.id)}
                   className="bg-yellow-500 text-white px-2 py-1 rounded"
                 >
                   Call
-                </button>
+                </Button>
               )}
               {guest.status !== "SEATED" && (
-                <button
+                <Button
                   onClick={() => handleAction(seatGuestAction, guest.id)}
                   className="bg-green-500 text-white px-2 py-1 rounded"
                 >
                   Seat
-                </button>
+                </Button>
               )}
               {guest.status !== "REMOVED" && (
-                <button
+                <Button
                   onClick={() => handleAction(removeGuestAction, guest.id)}
                   className="bg-red-500 text-white px-2 py-1 rounded"
                 >
                   Remove
-                </button>
+                </Button>
               )}
             </div>
           </div>

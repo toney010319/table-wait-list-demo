@@ -3,6 +3,18 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { addGuestAction } from "../lib/action";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function GuestForm({ onGuestAdded }) {
   const [error, setError] = useState(null);
@@ -24,6 +36,7 @@ export default function GuestForm({ onGuestAdded }) {
       if (result.success) {
         setError(null);
         setPartySizeNotice("");
+
         if (onGuestAdded) await onGuestAdded();
       } else {
         setError(result.error || "Failed to add guest.");
@@ -34,44 +47,49 @@ export default function GuestForm({ onGuestAdded }) {
   }
 
   return (
-    <form action={handleSubmit} className="space-y-4 p-4 bg-gray-100 rounded">
-      <div>
-        <label className="block text-sm font-medium ">Name</label>
-        <input type="text" name="name" required className="w-full p-2 border rounded" />
-      </div>
-      <div>
-        <label className="block text-sm font-medium">Party Size</label>
-        <input
-          type="number"
-          name="partySize"
-          required
-          min="1"
-          className="w-full p-2 border rounded"
-          onInput={(e) => {
-            const value = e.target.value;
-            if (/[^0-9]/.test(value)) {
-              setPartySizeNotice("Number only");
-            } else {
-              setPartySizeNotice("");
-            }
-            e.target.value = value.replace(/[^0-9]/g, "");
-          }}
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium">Phone (Optional)</label>
-        <input type="tel" name="phone" className="w-full p-2 border rounded" />
-      </div>
-      <div>
-        <label className="flex items-center">
-          <input type="checkbox" name="priority" className="mr-2" />
-          Priority
-        </label>
-      </div>
-      {error && <p className="text-red-500">{error}</p>}
-      <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
-        Add Guest
-      </button>
+    <form action={handleSubmit} className="space-y-4 p-4   rounded">
+      <Card>
+        <CardContent className="space-y-4">
+          <div className="grid w-full  items-center gap-3">
+            <Label htmlFor="name">Name</Label>
+            <Input type="text" name="name" required className="w-full p-2 border rounded" />
+          </div>
+
+          <div className="grid w-full  items-center gap-3">
+            <Label htmlFor="partySize">Party Size</Label>
+            <Input
+              type="number"
+              name="partySize"
+              placeholder="Party Size"
+              required
+              min="1"
+              className="w-full p-2 border rounded"
+              onInput={(e) => {
+                const value = e.target.value;
+                if (/[^0-9]/.test(value)) {
+                  setPartySizeNotice("Number only");
+                } else {
+                  setPartySizeNotice("");
+                }
+                e.target.value = value.replace(/[^0-9]/g, "");
+              }}
+            />
+          </div>
+          <div className="grid w-full  items-center gap-3">
+            <Label htmlFor="phone">Phone (Optional)</Label>
+            <Input type="tel" name="phone" placeholder="Phone Number" className="w-full p-2 border rounded" />
+          </div>
+          <div className="flex   gap-2">
+            <Label className="">
+              <Input type="checkbox" name="priority" className="mr-2" /> Priority
+            </Label>
+          </div>
+          {error && <p className="text-red-500">{error}</p>}
+          <Button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+            Add Guest
+          </Button>
+        </CardContent>
+      </Card>
     </form>
   );
 }
