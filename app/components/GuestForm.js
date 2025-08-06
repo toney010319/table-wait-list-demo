@@ -6,14 +6,30 @@ import { addGuestAction } from "../lib/action";
 
 export default function GuestForm({ onGuestAdded }) {
   const [error, setError] = useState(null);
-
+  const [partySizeNotice, setPartySizeNotice] = useState("");
   async function handleSubmit(formData) {
-    const result = await addGuestAction(formData);
-    if (result.success) {
-      setError(null);
-      if (onGuestAdded) await onGuestAdded();
-    } else {
-      setError(result.error);
+    try {
+      const partySizeRaw = formData.get("partySize");
+      if (!/^\d+$/.test(partySizeRaw)) {
+        setError("Party Size must be a number.");
+        return;
+      }
+      const partySize = parseInt(partySizeRaw, 10);
+      if (isNaN(partySize) || partySize < 1) {
+        setError("Party Size must be a positive number.");
+        return;
+      }
+
+      const result = await addGuestAction(formData);
+      if (result.success) {
+        setError(null);
+        setPartySizeNotice("");
+        if (onGuestAdded) await onGuestAdded();
+      } else {
+        setError(result.error || "Failed to add guest.");
+      }
+    } catch (err) {
+      setError("An unexpected error occurred. Please try again.");
     }
   }
 
@@ -25,7 +41,22 @@ export default function GuestForm({ onGuestAdded }) {
       </div>
       <div>
         <label className="block text-sm font-medium">Party Size</label>
-        <input type="number" name="partySize" required min="1" className="w-full p-2 border rounded" />
+        <input
+          type="number"
+          name="partySize"
+          required
+          min="1"
+          className="w-full p-2 border rounded"
+          onInput={(e) => {
+            const value = e.target.value;
+            if (/[^0-9]/.test(value)) {
+              setPartySizeNotice("Number only");
+            } else {
+              setPartySizeNotice("");
+            }
+            e.target.value = value.replace(/[^0-9]/g, "");
+          }}
+        />
       </div>
       <div>
         <label className="block text-sm font-medium">Phone (Optional)</label>
